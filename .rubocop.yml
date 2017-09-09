@@ -1,0 +1,10 @@
+# See default settings https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+AllCops:
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
+  Exclude:
+    - '*.gemspec'
+    - 'Gemfile'
+    - 'bin/*'
+    - 'Rakefile'
+
