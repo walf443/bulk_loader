@@ -9,3 +9,6 @@ AllCops:
     - 'bin/*'
     - 'Rakefile'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
