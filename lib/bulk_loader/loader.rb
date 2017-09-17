@@ -11,13 +11,12 @@ module BulkLoader
       @block = block
     end
 
-    def load(lazy_objs)
+    def load(lazy_objs, *args)
       lazy_obj_of = lazy_objs.each_with_object({}) { |e, h| h[e.target] = e }
 
       mapping_of = get_mapping(lazy_objs)
 
-      result_of = @block.call(mapping_of.keys, *@binds)
-      raise 'block shuold return Hash' unless result_of.is_a?(Hash)
+      result_of = call_block(mapping_of, *args)
 
       lazy_objs.each(&:clear)
 
@@ -27,6 +26,16 @@ module BulkLoader
     end
 
     private
+
+    def call_block(mapping_of, *args)
+      if args.size < @block.arity - 1
+        message = "block should take #{@block.arity} parameters, but given #{arity.size + 1}"
+        raise ArgumentError, message
+      end
+      result_of = @block.call(mapping_of.keys, *args)
+      raise 'block shuold return Hash' unless result_of.is_a?(Hash)
+      result_of
+    end
 
     def get_mapping(lazy_objs)
       mapping_of = {}
