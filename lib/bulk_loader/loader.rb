@@ -4,11 +4,10 @@ module BulkLoader
   class Loader
     # +mapping+ is a Symbol or Proc. block's 1st argument mapped using mapping.
     # and your block's return value's key should be mapped value.
-    def initialize(mapping, default: nil, binds: [], &block)
+    def initialize(mapping, default: nil, &block)
       @mapping = mapping
       @is_mapping_proc = @mapping.is_a?(Proc)
       @default = default
-      @binds = binds
       @block = block
     end
 
