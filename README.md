@@ -65,6 +65,21 @@ mapped\_key is Symbol or Proc. if you want to use original object, you can pass 
 If block's result return Hash that cannot mapped to original object, you can return value using default option.
 If you does not pass default option, default is nil.
 
+If you want to pass object like Array, you should use with lambda.
+
+```ruby
+class YourModel
+  include BulkLoader::DSL
+
+  bulk_loader :name, :mapped_key, default: -> { [] } do |mapped_keys|
+    # something with mapped_keys
+    {
+      mapped_key => value, # you should return Hash that has mapped_key as key.
+    }
+  end
+end
+```
+
 #### export: false
 
 :name method is just shorthand for bulk\_loader.public\_send(:name). So if you not want to create :name method, you can pass export: false to bulk\_loader definition.

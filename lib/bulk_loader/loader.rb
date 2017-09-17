@@ -8,6 +8,7 @@ module BulkLoader
       @mapping = mapping
       @is_mapping_proc = @mapping.is_a?(Proc)
       @default = default
+      @is_default_proc = @default.is_a?(Proc)
       @block = block
     end
 
@@ -59,7 +60,7 @@ module BulkLoader
 
     def fill_default_to_unloaded_obj(lazy_objs)
       lazy_objs.each do |lazy_obj|
-        lazy_obj.set(@default) unless lazy_obj.loaded?
+        lazy_obj.set(@is_default_proc ? @default.call : @default) unless lazy_obj.loaded?
       end
     end
   end
