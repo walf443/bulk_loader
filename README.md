@@ -58,7 +58,7 @@ that create a instance method that name is :name.
 
 #### mapped\_key
 
-mapped\_key is Symbol or Proc. if you want to use original objet, you can pass `->(your\_model) { your\_model } `.
+mapped\_key is Symbol or Proc. if you want to use original object, you can pass `->(your_model) { your_model } `.
 
 #### default option
 
