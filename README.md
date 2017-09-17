@@ -35,7 +35,7 @@ end
 ## Description
 
 BulkLoader::DSL only create bulk\_loader class method and bulk\_loader method.
-So you can use any object that is not ActiveRecord.
+So you can use with any object that is not ActiveRecord.
 
 ### Defining bulk\_loader method
 
