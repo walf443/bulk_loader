@@ -2,8 +2,11 @@
 
 module BulkLoader
   class Loader
+    # +mapping+ is a Symbol or Proc. block's 1st argument mapped using mapping.
+    # and your block's return value's key should be mapped value.
     def initialize(mapping, default: nil, binds: [], &block)
       @mapping = mapping
+      @is_mapping_proc = @mapping.is_a?(Proc)
       @default = default
       @binds = binds
       @block = block
@@ -30,7 +33,7 @@ module BulkLoader
       mapping_of = {}
       targets = lazy_objs.map(&:target)
       targets.each do |target|
-        mapped_target = target.public_send(@mapping)
+        mapped_target = @is_mapping_proc ? @mapping.call(target) : target.public_send(@mapping)
         mapping_of[mapped_target] = [] unless mapping_of[mapped_target]
         mapping_of[mapped_target].push(target)
       end

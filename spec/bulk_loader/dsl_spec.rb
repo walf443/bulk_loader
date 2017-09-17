@@ -6,7 +6,7 @@ RSpec.describe BulkLoader::DSL do
   class Model
     include BulkLoader::DSL
 
-    bulk_loader :test, :to_s do
+    bulk_loader :test, ->(i) { i } do
       {}
     end
   end

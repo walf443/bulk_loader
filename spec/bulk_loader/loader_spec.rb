@@ -7,7 +7,7 @@ RSpec.describe BulkLoader::Loader do
     subject { -> { loader.load([lazy_obj]) } }
 
     let(:loader) do
-      described_class.new(:to_i, &block)
+      described_class.new(->(i) { i }, &block)
     end
 
     context 'when block result is not include lazy_obj target' do
