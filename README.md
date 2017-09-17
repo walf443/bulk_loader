@@ -15,7 +15,7 @@ end
 
 ```
 
-You can use followings:
+You can use this like followings:
 
 ```ruby
 # app/controllers/posts_controller.rb
@@ -56,6 +56,35 @@ end
 
 that create a instance method that name is :name.
 
+#### mapped\_key
+
+mapped\_key is Symbol or Proc. if you want to use original objet, you can pass `->(your\_model) { your\_model } `.
+
+#### default option
+
+If block's result return Hash that cannot mapped to original object, you can return value using default option.
+If you does not pass default option, default is nil.
+
+#### export: false
+
+:name method is just shorthand for bulk\_loader.public\_send(:name). So if you not want to create :name method, you can pass export: false to bulk\_loader definition.
+
+```ruby
+class YourModel
+  include BulkLoader::DSL
+
+  bulk_loader :name, :mapped_key, default: nil, export: false do |mapped_keys|
+    # something with mapped_keys
+  end
+end
+```
+
+then you can use this like followings.
+
+```ruby
+  YourModel.new.bulk_loader.name
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -71,10 +100,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install bulk_loader
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 
