@@ -3,7 +3,7 @@
 module BulkLoader
   class Attribute
     def initialize(cattr, target)
-      @cattr = cattr
+      @class_attribute = cattr
       @target = target
       @lazy_of ||= {}
     end
@@ -15,17 +15,17 @@ module BulkLoader
     private
 
     def method_missing(name, *args)
-      return super unless @cattr.include?(name)
+      return super unless @class_attribute.include?(name)
       define_singleton_method(name) do
         attr = lazy(name)
-        @cattr.load([name], [self]) unless attr.loaded?
+        @class_attribute.load([name], [self]) unless attr.loaded?
         attr.get
       end
       public_send(name)
     end
 
     def respond_to_missing?(name, include_private)
-      return true if @cattr.include?(name)
+      return true if @class_attribute.include?(name)
       super
     end
   end
