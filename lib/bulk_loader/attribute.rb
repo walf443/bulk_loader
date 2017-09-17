@@ -17,7 +17,9 @@ module BulkLoader
     def method_missing(name, *args)
       return super unless @cattr.include?(name)
       define_singleton_method(name) do
-        lazy(name).get
+        attr = lazy(name)
+        @cattr.load([name], [self]) unless attr.loaded?
+        attr.get
       end
       public_send(name)
     end

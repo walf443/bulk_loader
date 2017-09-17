@@ -21,6 +21,8 @@ RSpec.describe BulkLoader::DSL do
   it { expect(model.bulk_loader.lazy(:test)).to be_kind_of(BulkLoader::Lazy) }
   it { expect(model).to be_respond_to(:test) }
 
+  it { expect { model.test }.to_not raise_exception }
+
   it do
     Model.bulk_loader.load(:test, [model.bulk_loader])
     expect(model.bulk_loader.lazy(:test)).to be_loaded
