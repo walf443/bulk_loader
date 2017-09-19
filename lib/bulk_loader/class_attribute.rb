@@ -39,11 +39,7 @@ module BulkLoader
     end
 
     def convert_attributes(attributes)
-      attrs = []
-      attributes.each do |attr|
-        attrs.push(convert_attribute(attr))
-      end
-      attrs
+      attributes.map(&method(:convert_attribute))
     end
 
     def convert_attribute(attr)
