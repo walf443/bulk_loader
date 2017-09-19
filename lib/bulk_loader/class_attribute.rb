@@ -10,6 +10,10 @@ module BulkLoader
       @loader_of.include?(name)
     end
 
+    def each(&block)
+      @loader_of.each(&block)
+    end
+
     def load(loader_names, attributes, *args)
       attrs = convert_attributes(attributes)
 
