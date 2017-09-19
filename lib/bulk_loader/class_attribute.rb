@@ -43,10 +43,10 @@ module BulkLoader
     end
 
     def convert_attribute(attr)
-      if attr.respond_to?(:lazy)
-        attr
-      elsif attr.respond_to?(:bulk_loader)
+      if attr.respond_to?(:bulk_loader)
         attr.bulk_loader
+      elsif attr.respond_to?(:lazy)
+        attr
       else
         raise 'attributes should be BulkLoader::Attribute or BulkLoader::DSL included class!!'
       end
