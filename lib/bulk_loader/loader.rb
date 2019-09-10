@@ -35,6 +35,7 @@ module BulkLoader
       end
       result_of = @block.call(mapping_of.keys, *args)
       raise 'block shuold return Hash' unless result_of.is_a?(Hash)
+
       result_of
     end
 
@@ -52,6 +53,7 @@ module BulkLoader
     def set_result_to_lazy_objs(result_of, lazy_obj_of, mapping_of)
       result_of.each do |mapped_target, value|
         next unless mapping_of[mapped_target]
+
         mapping_of[mapped_target].each do |target|
           lazy_obj_of[target]&.set(value)
         end
