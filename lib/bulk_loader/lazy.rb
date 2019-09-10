@@ -13,6 +13,7 @@ module BulkLoader
 
     def get
       raise 'data is not loaded!!' unless @loaded
+
       @value
     end
 

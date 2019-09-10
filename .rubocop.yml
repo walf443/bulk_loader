@@ -1,6 +1,6 @@
 # See default settings https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   DisplayCopNames: true
   Exclude:
     - '*.gemspec'
@@ -9,6 +9,12 @@ AllCops:
     - 'bin/*'
     - 'Rakefile'
     - 'example/**/*'
+
+Metrics/AbcSize:
+  Max: 17
+
+Metrics/MethodLength:
+  Max: 14
 
 Metrics/BlockLength:
   Exclude:

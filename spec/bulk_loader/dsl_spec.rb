@@ -47,7 +47,9 @@ RSpec.describe BulkLoader::DSL do
   end
 
   it do
-    expect { Model.bulk_loader.load(:test_child, [model.bulk_loader]) }.to raise_error(BulkLoader::LoaderNotFoundError)
+    expect do
+      Model.bulk_loader.load(:test_child, [model.bulk_loader])
+    end.to raise_error(BulkLoader::LoaderNotFoundError)
   end
 
   it do

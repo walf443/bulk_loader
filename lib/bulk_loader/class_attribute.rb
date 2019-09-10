@@ -21,9 +21,8 @@ module BulkLoader
 
       loader_names = [loader_names] unless loader_names.is_a?(Array)
       loader_names.each do |name|
-        unless @loader_of[name]
-          raise LoaderNotFoundError, "bulk_loader :#{name} is not defined"
-        end
+        raise LoaderNotFoundError, "bulk_loader :#{name} is not defined" unless @loader_of[name]
+
         @loader_of[name].load(attrs.map { |attr| attr.lazy(name) }, *args)
       end
     end

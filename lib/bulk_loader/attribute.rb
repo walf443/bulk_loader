@@ -16,6 +16,7 @@ module BulkLoader
 
     def method_missing(name, *args)
       return super unless @class_attribute.include?(name)
+
       names = [name].freeze
       define_singleton_method(name) do
         attr = lazy(name)
@@ -27,6 +28,7 @@ module BulkLoader
 
     def respond_to_missing?(name, include_private)
       return true if @class_attribute.include?(name)
+
       super
     end
   end
