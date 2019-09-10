@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'weakref'
-
 module BulkLoader
   module DSL
     module ClassMethods
@@ -40,7 +38,7 @@ module BulkLoader
       return @bulk_loader if @bulk_loader
 
       class_attribute = self.class.bulk_loader
-      @bulk_loader = BulkLoader::Attribute.new(class_attribute, WeakRef.new(self))
+      @bulk_loader = BulkLoader::Attribute.new(class_attribute, self)
     end
   end
 end
