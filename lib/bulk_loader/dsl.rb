@@ -9,7 +9,13 @@ module BulkLoader
       # If you pass name, mapping, options argument, you can define loader
       # if you does not want to export name to object, pass export: false to options.
       def bulk_loader(*args, &block)
-        @bulk_loader ||= BulkLoader::ClassAttribute.new
+        unless @bulk_loader
+          if superclass.respond_to?(:bulk_loader)
+            @bulk_loader = superclass.bulk_loader.dup
+          else
+            @bulk_loader = BulkLoader::ClassAttribute.new
+          end
+        end
         return @bulk_loader if args.empty?
 
         name, mapping, options = *args
