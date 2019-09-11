@@ -36,8 +36,7 @@ module BulkLoader
     def bulk_loader
       return @bulk_loader if @bulk_loader
 
-      class_attribute = self.class.bulk_loader
-      @bulk_loader = BulkLoader::Attribute.new(class_attribute, self)
+      @bulk_loader = BulkLoader::Attribute.new(self)
     end
   end
 end
