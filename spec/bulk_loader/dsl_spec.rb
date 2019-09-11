@@ -63,4 +63,14 @@ RSpec.describe BulkLoader::DSL do
     expect(model_child.bulk_loader.lazy(:test_child)).to be_loaded
     expect(model_child.test_child).to be_nil
   end
+
+  it 'should be marshalable' do
+    ModelChild.bulk_loader.load(:test, [model_child.bulk_loader])
+    result = nil
+    expect { result = Marshal.load(Marshal.dump(model_child)) }.not_to raise_error
+    expect(result.bulk_loader.lazy(:test)).to be_loaded
+    expect(result.test).to be_nil
+
+    expect(result.bulk_loader.lazy(:test_child)).not_to be_loaded
+  end
 end
