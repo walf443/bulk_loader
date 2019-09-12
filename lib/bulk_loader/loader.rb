@@ -13,15 +13,13 @@ module BulkLoader
     end
 
     def load(lazy_objs, *args)
-      lazy_obj_of = lazy_objs.each_with_object({}) { |e, h| h[e.target] = e }
-
       mapping_of = get_mapping(lazy_objs)
 
       result_of = call_block(mapping_of, *args)
 
       lazy_objs.each(&:clear)
 
-      set_result_to_lazy_objs(result_of, lazy_obj_of, mapping_of)
+      set_result_to_lazy_objs(result_of, mapping_of)
 
       fill_default_to_unloaded_obj(lazy_objs)
     end
@@ -42,20 +40,21 @@ module BulkLoader
     def get_mapping(lazy_objs)
       mapping_of = {}
       targets = lazy_objs.map(&:target)
-      targets.each do |target|
+      lazy_objs.each do |lazy_obj|
+        target = lazy_obj.target
         mapped_target = @is_mapping_proc ? @mapping.call(target) : target.public_send(@mapping)
         mapping_of[mapped_target] = [] unless mapping_of[mapped_target]
-        mapping_of[mapped_target].push(target)
+        mapping_of[mapped_target].push(lazy_obj)
       end
       mapping_of
     end
 
-    def set_result_to_lazy_objs(result_of, lazy_obj_of, mapping_of)
+    def set_result_to_lazy_objs(result_of, mapping_of)
       result_of.each do |mapped_target, value|
         next unless mapping_of[mapped_target]
 
-        mapping_of[mapped_target].each do |target|
-          lazy_obj_of[target]&.set(value)
+        mapping_of[mapped_target].each do |lazy_obj|
+          lazy_obj.set(value)
         end
       end
     end
