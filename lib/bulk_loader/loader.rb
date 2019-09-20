@@ -39,7 +39,6 @@ module BulkLoader
 
     def get_mapping(lazy_objs)
       mapping_of = {}
-      targets = lazy_objs.map(&:target)
       lazy_objs.each do |lazy_obj|
         target = lazy_obj.target
         mapped_target = @is_mapping_proc ? @mapping.call(target) : target.public_send(@mapping)
