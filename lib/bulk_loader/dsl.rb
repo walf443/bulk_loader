@@ -34,7 +34,7 @@ module BulkLoader
     end
 
     def bulk_loader
-      return @bulk_loader if @bulk_loader
+      return @bulk_loader if defined?(@bulk_loader) && @bulk_loader
 
       @bulk_loader = BulkLoader::Attribute.new(self)
     end
