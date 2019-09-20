@@ -11,6 +11,10 @@ module BulkLoader
       @lazy_of[name] ||= BulkLoader::Lazy.new(@target)
     end
 
+    def loaded?(name)
+      lazy(name).loaded?
+    end
+
     def marshal_dump
       {
         target: @target,
