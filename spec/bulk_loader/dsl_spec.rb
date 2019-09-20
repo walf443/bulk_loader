@@ -42,6 +42,7 @@ RSpec.describe BulkLoader::DSL do
 
   it do
     Model.bulk_loader.load(:test, [model.bulk_loader])
+    expect(model.bulk_loader).to be_loaded(:test)
     expect(model.bulk_loader.lazy(:test)).to be_loaded
     expect(model.test).to be_nil
   end
