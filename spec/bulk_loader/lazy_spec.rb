@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe BulkLoader::Lazy do
   describe '#set' do
     subject { -> { lazy.set(true) } }
-    let(:lazy) { described_class.new(nil) }
+    let(:lazy) { described_class.new(nil, name: :lazy) }
 
     it { is_expected.to change { lazy.loaded? }.to(true) }
   end
@@ -13,10 +13,10 @@ RSpec.describe BulkLoader::Lazy do
   describe '#get' do
     subject { -> { lazy.get } }
 
-    let(:lazy) { described_class.new(nil) }
+    let(:lazy) { described_class.new(nil, name: :lazy) }
 
     context 'when it was not set' do
-      it { is_expected.to raise_error(RuntimeError) }
+      it { is_expected.to raise_error(BulkLoader::UnloadAccessError) }
     end
 
     context 'wehn value was set' do
@@ -30,7 +30,7 @@ RSpec.describe BulkLoader::Lazy do
   end
 
   describe '#clear' do
-    let(:lazy) { described_class.new(nil) }
+    let(:lazy) { described_class.new(nil, name: :lazy) }
 
     subject { -> { lazy.clear } }
 

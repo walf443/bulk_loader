@@ -11,10 +11,10 @@ AllCops:
     - 'example/**/*'
 
 Metrics/AbcSize:
-  Max: 17
+  Max: 22
 
 Metrics/MethodLength:
-  Max: 14
+  Max: 20
 
 Metrics/BlockLength:
   Exclude:

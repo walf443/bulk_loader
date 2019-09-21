@@ -6,10 +6,16 @@ module BulkLoader
   class ClassAttribute
     def initialize
       @loader_of = {}
+
+      @no_autoload_of = {}
     end
 
     def include?(name)
       @loader_of.include?(name)
+    end
+
+    def autoload?(name)
+      !@no_autoload_of[name]
     end
 
     def each(&block)
@@ -27,8 +33,9 @@ module BulkLoader
       end
     end
 
-    def define_loader(name, loader)
+    def define_loader(name, loader, autoload: true)
       @loader_of[name] = loader
+      @no_autoload_of[name] = true unless autoload
       define_singleton_method(name) { loader }
     end
 
