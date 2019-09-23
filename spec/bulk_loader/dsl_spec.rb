@@ -6,13 +6,13 @@ RSpec.describe BulkLoader::DSL do
   class Model
     include BulkLoader::DSL
 
-    bulk_loader :test, ->(i) { i } do
+    bulk_loader :test, :object_id do
       {}
     end
   end
 
   class ModelChild < Model
-    bulk_loader :test_child, ->(i) { i } do
+    bulk_loader :test_child, ->(i) { i }, autoload: false do
       {}
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe BulkLoader::DSL do
 
   it { expect { model.test }.to_not raise_exception }
   it { expect { model_child.test }.to_not raise_exception }
-  it { expect { model_child.test_child }.to_not raise_exception }
+  it { expect { model_child.test_child }.to raise_error(BulkLoader::UnloadAccessError) }
 
   it do
     Model.bulk_loader.load(:test, [model.bulk_loader])

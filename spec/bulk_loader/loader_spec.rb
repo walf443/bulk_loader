@@ -13,8 +13,8 @@ RSpec.describe BulkLoader::Loader do
     context 'when block result is not include lazy_obj target' do
       let(:block) { ->(_) { {} } }
 
-      let(:lazy_obj1) { BulkLoader::Lazy.new(1) }
-      let(:lazy_obj2) { BulkLoader::Lazy.new(1) }
+      let(:lazy_obj1) { BulkLoader::Lazy.new(1, name: :obj1) }
+      let(:lazy_obj2) { BulkLoader::Lazy.new(1, name: :obj2) }
 
       it { is_expected.to change { lazy_obj1.loaded? }.from(false).to(true) }
       it { is_expected.to change { lazy_obj2.loaded? }.from(false).to(true) }
@@ -22,8 +22,8 @@ RSpec.describe BulkLoader::Loader do
 
     context 'when block result is include lazy_obj target' do
       let(:block) { ->(_) { { 1 => true, 2 => false, 3 => true } } }
-      let(:lazy_obj1) { BulkLoader::Lazy.new(2) }
-      let(:lazy_obj2) { BulkLoader::Lazy.new(2) }
+      let(:lazy_obj1) { BulkLoader::Lazy.new(2, name: :obj1) }
+      let(:lazy_obj2) { BulkLoader::Lazy.new(2, name: :obj2) }
 
       it 'should set false to lazy_obj' do
         subject.call
@@ -35,8 +35,8 @@ RSpec.describe BulkLoader::Loader do
     context 'when lazy_obj has already loaded' do
       let(:block) { ->(_) { { 1 => true } } }
 
-      let(:lazy_obj1) { BulkLoader::Lazy.new(1) }
-      let(:lazy_obj2) { BulkLoader::Lazy.new(1) }
+      let(:lazy_obj1) { BulkLoader::Lazy.new(1, name: :obj1) }
+      let(:lazy_obj2) { BulkLoader::Lazy.new(1, name: :obj2) }
 
       before do
         lazy_obj1.set(false)

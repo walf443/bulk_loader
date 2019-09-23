@@ -8,7 +8,7 @@ module BulkLoader
     end
 
     def lazy(name)
-      @lazy_of[name] ||= BulkLoader::Lazy.new(@target)
+      @lazy_of[name] ||= BulkLoader::Lazy.new(@target, name: name)
     end
 
     def loaded?(name)
@@ -39,7 +39,7 @@ module BulkLoader
       names = [name].freeze
       define_singleton_method(name) do
         attr = lazy(name)
-        class_attribute.load(names, [self]) unless attr.loaded?
+        class_attribute.load(names, [self]) if !attr.loaded? && class_attribute.autoload?(name)
         attr.get
       end
       public_send(name)

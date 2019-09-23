@@ -18,8 +18,11 @@ module BulkLoader
         name, mapping, options = *args
         options ||= {}
         does_export = options.delete(:export)
+        does_autoload = options.delete(:autoload)
+        does_autoload = true if does_autoload.nil?
 
-        @bulk_loader.define_loader(name, BulkLoader::Loader.new(mapping, options, &block))
+        loader = BulkLoader::Loader.new(mapping, options, &block)
+        @bulk_loader.define_loader(name, loader, autoload: does_autoload)
 
         return if does_export == false
 

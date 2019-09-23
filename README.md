@@ -80,7 +80,7 @@ class YourModel
 end
 ```
 
-#### export: false
+#### export: false option ( default: true )
 
 :name method is just shorthand for bulk\_loader.public\_send(:name). So if you not want to create :name method, you can pass export: false to bulk\_loader definition.
 
@@ -98,6 +98,32 @@ then you can use this like followings.
 
 ```ruby
   YourModel.new.bulk_loader.name
+```
+
+#### autoload: false option ( default: true )
+
+If you set this option to false, +BulkLoader::UnloadAccessError+ occured when you does not call +YourModel.bulk\_loader.load explicitly on :name method.
+
+```ruby
+class YourModel
+  include BulkLoader::DSL
+
+  bulk_loader :name, :mapped_key, default: nil, autoload: false do |mapped_keys|
+    # something with mapped_keys
+  end
+end
+```
+
+```ruby
+  YourModel.new.name #=> raise error BulkLoader::UnloadAccessError
+```
+
+You can pass this by calling load explicitly.
+
+```ruby
+  model = YourModel.new
+  YourModel.bulk_loader.load(:name, [model])
+  model.name #=> it does not raise BulkLoader::UnloadAccessError
 ```
 
 ## Installation
