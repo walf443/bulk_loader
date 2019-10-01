@@ -13,6 +13,8 @@ module BulkLoader
     end
 
     def load(lazy_objs, *args)
+      return if lazy_objs.empty?
+
       mapping_of = get_mapping(lazy_objs)
 
       result_of = call_block(mapping_of, *args)
@@ -32,6 +34,7 @@ module BulkLoader
         raise ArgumentError, message
       end
       result_of = @block.call(mapping_of.keys, *args)
+
       raise 'block shuold return Hash' unless result_of.is_a?(Hash)
 
       result_of
