@@ -10,6 +10,14 @@ RSpec.describe BulkLoader::Loader do
       described_class.new(->(i) { i }, &block)
     end
 
+    context 'when block argument is exist' do
+      let(:block) { ->(_, _) { {} } }
+      let(:lazy_obj1) { BulkLoader::Lazy.new(1, name: :obj1) }
+      let(:lazy_obj2) { BulkLoader::Lazy.new(1, name: :obj2) }
+
+      it { is_expected.to raise_error(ArgumentError) }
+    end
+
     context 'when block result is not include lazy_obj target' do
       let(:block) { ->(_) { {} } }
 

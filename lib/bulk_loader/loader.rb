@@ -30,7 +30,7 @@ module BulkLoader
 
     def call_block(mapping_of, *args)
       if args.size < @block.arity - 1
-        message = "block should take #{@block.arity} parameters, but given #{arity.size + 1}"
+        message = "load should take #{@block.arity} parameters, but given #{args.size + 1}"
         raise ArgumentError, message
       end
       result_of = @block.call(mapping_of.keys, *args)
