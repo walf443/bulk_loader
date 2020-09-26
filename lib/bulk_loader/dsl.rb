@@ -6,7 +6,7 @@ module BulkLoader
       # getter for +BulkLoader::ClassAttribute+
       # If you pass name, mapping, options argument, you can define loader
       # if you does not want to export name to object, pass export: false to options.
-      def bulk_loader(*args, &block)
+      def bulk_loader(*args, export: nil, autoload: true, default: nil, &block)
         @bulk_loader ||= if superclass.respond_to?(:bulk_loader)
                            superclass.bulk_loader.dup
                          else
@@ -15,16 +15,12 @@ module BulkLoader
 
         return @bulk_loader if args.empty?
 
-        name, mapping, options = *args
-        options ||= {}
-        does_export = options.delete(:export)
-        does_autoload = options.delete(:autoload)
-        does_autoload = true if does_autoload.nil?
+        name, mapping = *args
 
-        loader = BulkLoader::Loader.new(mapping, options, &block)
-        @bulk_loader.define_loader(name, loader, autoload: does_autoload)
+        loader = BulkLoader::Loader.new(mapping, default: default, &block)
+        @bulk_loader.define_loader(name, loader, autoload: autoload)
 
-        return if does_export == false
+        return if export == false
 
         define_method name do
           bulk_loader.public_send(name)
