@@ -5,4 +5,10 @@ require 'rubocop/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new
 
-task :default => [:spec, :rubocop]
+task :default => [:spec, :rubocop, :steep_check]
+
+task :steep_check do
+  return unless Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.6.0')
+
+  sh 'bundle exec steep check'
+end
