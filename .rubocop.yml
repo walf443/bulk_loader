@@ -8,7 +8,9 @@ AllCops:
     - 'Guardfile'
     - 'bin/*'
     - 'Rakefile'
+    - 'Steepfile'
     - 'example/**/*'
+  NewCops: enable
 
 Metrics/AbcSize:
   Max: 22
@@ -20,8 +22,11 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Style/Documentation:
+  Enabled: false
+
+Lint/ConstantDefinitionInBlock:
   Enabled: false
