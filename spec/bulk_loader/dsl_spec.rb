@@ -17,8 +17,17 @@ RSpec.describe BulkLoader::DSL do
     end
   end
 
+  class ModelWithoutExport
+    include BulkLoader::DSL
+
+    bulk_loader :test, ->(i) { i }, export: false do
+      {}
+    end
+  end
+
   let(:model) { Model.new }
   let(:model_child) { ModelChild.new }
+  let(:model_without_export) { ModelWithoutExport.new }
 
   it { expect(Model.bulk_loader).to be_kind_of(BulkLoader::ClassAttribute) }
   it { expect(Model.bulk_loader).to be_respond_to(:test) }
@@ -32,6 +41,7 @@ RSpec.describe BulkLoader::DSL do
   it { expect(model.bulk_loader.lazy(:test_child)).to be_kind_of(BulkLoader::Lazy) }
   it { expect(model).to be_respond_to(:test) }
   it { expect(model).not_to be_respond_to(:test_child) }
+  it { expect(model_without_export).not_to be_respond_to(:test) }
 
   it { expect(model_child.bulk_loader.lazy(:test)).to be_kind_of(BulkLoader::Lazy) }
   it { expect(model_child).to be_respond_to(:test) }
