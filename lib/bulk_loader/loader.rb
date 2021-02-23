@@ -35,7 +35,7 @@ module BulkLoader
       end
       result_of = @block.call(mapping_of.keys, *args)
 
-      raise 'block shuold return Hash' unless result_of.is_a?(Hash)
+      raise 'block should return Hash' unless result_of.is_a?(Hash)
 
       result_of
     end
