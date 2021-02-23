@@ -1,0 +1,28 @@
+module BulkLoader
+  class LoaderNotFoundError < StandardError
+  end
+
+  class ClassAttribute
+    def initialize: () -> untyped
+
+    def include?: (untyped name) -> untyped
+
+    def autoload?: (untyped name) -> untyped
+
+    def each: () { () -> untyped } -> untyped
+
+    def load: (untyped loader_names, untyped attributes, *untyped args) -> untyped
+
+    def define_loader: (untyped name, untyped loader, ?autoload: bool autoload) -> untyped
+
+    def inspect: () -> ::String
+
+    def dup: () -> untyped
+
+    def loader_inspect: () -> untyped
+
+    def convert_attributes: (untyped attributes) -> untyped
+
+    def convert_attribute: (untyped attr) -> untyped
+  end
+end

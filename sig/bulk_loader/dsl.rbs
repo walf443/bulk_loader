@@ -1,0 +1,16 @@
+module BulkLoader
+  module DSL
+    module ClassMethods
+      # getter for +BulkLoader::ClassAttribute+
+      # If you pass name, mapping, options argument, you can define loader
+      # if you does not want to export name to object, pass export: false to options.
+      # if you would like to raise error when implicitly calling loader, pass autoload: false
+      # to options.
+      def bulk_loader: (*untyped args, ?export: bool? export, ?autoload: bool autoload, ?default: Object? default) { () -> untyped } -> (untyped | nil)
+    end
+
+    def self.included: (Module mod) -> void
+
+    def bulk_loader: () -> BulkLoader::Attribute
+  end
+end

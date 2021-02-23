@@ -1,0 +1,18 @@
+module BulkLoader
+  class Attribute
+    def initialize: (Object target) -> void
+
+    def lazy: (Symbol name) -> BulkLoader::Lazy
+
+    def loaded?: (Symbol name) -> bool
+
+    def marshal_dump: () -> { target: untyped, lazy_of: Hash[String,BulkLoader::Lazy] }
+
+    def marshal_load: (untyped obj) -> untyped
+
+    def class_attribute: () -> BulkLoader::ClassAttribute
+
+    # def method_missing: (Symbol name, *untyped args) -> untyped
+    # def respond_to_missing?: (Symbol name, bool include_private) -> bool
+  end
+end
