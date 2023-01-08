@@ -4,8 +4,6 @@ require 'spec_helper'
 
 RSpec.describe BulkLoader::Loader do
   describe '#load' do
-    subject { -> { loader.load([lazy_obj1, lazy_obj2]) } }
-
     let(:loader) do
       described_class.new(->(i) { i }, &block)
     end
@@ -15,7 +13,7 @@ RSpec.describe BulkLoader::Loader do
       let(:lazy_obj1) { BulkLoader::Lazy.new(1, name: :obj1) }
       let(:lazy_obj2) { BulkLoader::Lazy.new(1, name: :obj2) }
 
-      it { is_expected.to raise_error(ArgumentError) }
+      it { expect { loader.load([lazy_obj1, lazy_obj2]) }.to raise_error(ArgumentError) }
     end
 
     context 'when block result is not include lazy_obj target' do
@@ -24,8 +22,8 @@ RSpec.describe BulkLoader::Loader do
       let(:lazy_obj1) { BulkLoader::Lazy.new(1, name: :obj1) }
       let(:lazy_obj2) { BulkLoader::Lazy.new(1, name: :obj2) }
 
-      it { is_expected.to change { lazy_obj1.loaded? }.from(false).to(true) }
-      it { is_expected.to change { lazy_obj2.loaded? }.from(false).to(true) }
+      it { expect { loader.load([lazy_obj1, lazy_obj2]) }.to change { lazy_obj1.loaded? }.from(false).to(true) }
+      it { expect { loader.load([lazy_obj1, lazy_obj2]) }.to change { lazy_obj2.loaded? }.from(false).to(true) }
     end
 
     context 'when block result is include lazy_obj target' do
@@ -34,7 +32,8 @@ RSpec.describe BulkLoader::Loader do
       let(:lazy_obj2) { BulkLoader::Lazy.new(2, name: :obj2) }
 
       it 'should set false to lazy_obj' do
-        subject.call
+        loader.load([lazy_obj1, lazy_obj2])
+
         expect(lazy_obj1.get).to be(false)
         expect(lazy_obj2.get).to be(false)
       end
@@ -52,11 +51,11 @@ RSpec.describe BulkLoader::Loader do
       end
 
       it 'should load again' do
-        is_expected.to change { lazy_obj1.get }.from(false).to(true)
+        expect { loader.load([lazy_obj1, lazy_obj2]) }.to change { lazy_obj1.get }.from(false).to(true)
       end
 
       it 'should load again' do
-        is_expected.to change { lazy_obj2.get }.from(false).to(true)
+        expect { loader.load([lazy_obj1, lazy_obj2]) }.to change { lazy_obj2.get }.from(false).to(true)
       end
     end
   end
