@@ -16,7 +16,7 @@ RSpec.describe BulkLoader::Lazy do
       it { expect { lazy.get }.to raise_error(BulkLoader::UnloadAccessError) }
     end
 
-    context 'wehn value was set' do
+    context 'when value was set' do
       before do
         lazy.set(true)
       end
