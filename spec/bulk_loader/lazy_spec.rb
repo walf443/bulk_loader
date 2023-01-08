@@ -4,40 +4,34 @@ require 'spec_helper'
 
 RSpec.describe BulkLoader::Lazy do
   describe '#set' do
-    subject { -> { lazy.set(true) } }
     let(:lazy) { described_class.new(nil, name: :lazy) }
 
-    it { is_expected.to change { lazy.loaded? }.to(true) }
+    it { expect { lazy.set(true) }.to change { lazy.loaded? }.to(true) }
   end
 
   describe '#get' do
-    subject { -> { lazy.get } }
-
     let(:lazy) { described_class.new(nil, name: :lazy) }
 
     context 'when it was not set' do
-      it { is_expected.to raise_error(BulkLoader::UnloadAccessError) }
+      it { expect { lazy.get }.to raise_error(BulkLoader::UnloadAccessError) }
     end
 
-    context 'wehn value was set' do
-      subject { lazy.get }
+    context 'when value was set' do
       before do
         lazy.set(true)
       end
 
-      it { is_expected.to be(true) }
+      it { expect(lazy.get).to be(true) }
     end
   end
 
   describe '#clear' do
     let(:lazy) { described_class.new(nil, name: :lazy) }
 
-    subject { -> { lazy.clear } }
-
     before do
       lazy.set(true)
     end
 
-    it { is_expected.to change { lazy.loaded? }.to(false) }
+    it { expect { lazy.clear }.to change { lazy.loaded? }.to(false) }
   end
 end
