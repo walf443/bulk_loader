@@ -1,0 +1,19 @@
+module BulkLoader
+  class UnloadAccessError < StandardError
+  end
+
+  # lazy class
+  class Lazy
+    attr_reader target: Object
+
+    def initialize: (Object target, ?name: Symbol? name) -> void
+
+    def get: () -> Object
+
+    def set: (Object value) -> void
+
+    def clear: () -> void
+
+    def loaded?: () -> bool
+  end
+end

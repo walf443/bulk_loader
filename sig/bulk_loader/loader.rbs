@@ -1,0 +1,17 @@
+module BulkLoader
+  class Loader
+    # +mapping+ is a Symbol or Proc. block's 1st argument mapped using mapping.
+    # and your block's return value's key should be mapped value.
+    def initialize: (Symbol | Proc mapping, ?default: Object? default) { () -> untyped } -> void
+
+    def load: (untyped lazy_objs, *untyped args) -> (nil | untyped)
+
+    def call_block: (untyped mapping_of, *untyped args) -> untyped
+
+    def get_mapping: (untyped lazy_objs) -> untyped
+
+    def set_result_to_lazy_objs: (untyped result_of, untyped mapping_of) -> untyped
+
+    def fill_default_to_unloaded_obj: (untyped lazy_objs) -> untyped
+  end
+end
